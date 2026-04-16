@@ -1,0 +1,2095 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Terminal ATC-79 · presentación</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Mono:wght@400;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+
+    <!-- Tema oscuro (local) -->
+    <link rel="stylesheet" id="hljs-theme-dark" href="dist/plugin/highlight/monokai.css" />
+    <!-- Tema claro desde CDN (Atom One Light) -->
+    <link rel="stylesheet" id="hljs-theme-light"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled />
+
+    <style>
+        /* ============================================================
+       CSS VARIABLES — LIGHT (GREEN NEUMORPHISM)
+       ============================================================ */
+        :root,
+        [data-theme="light"] {
+            --bg: #cfd9cb;
+            --neu-shadow-dark: #adb6a9;
+            --neu-shadow-light: #f1ffe3;
+            --card-bg: #cfd9cb;
+            --text-primary: #243328;
+            --text-secondary: #4a6b53;
+            --accent: #3d7a52;
+            --accent-glow: rgba(61, 122, 82, 0.25);
+            --toggle-sun: #f5a623;
+            --toggle-moon: #b0c4d8;
+            --clock-digit: #2c4a34;
+            --clock-sep: #4a7c59;
+            --border-radius: 18px;
+            --transition: 380ms cubic-bezier(.4, 0, .2, 1);
+        }
+
+        /* ============================================================
+       CSS VARIABLES — DARK (DEEP GRAY + BLUE TINT)
+       ============================================================ */
+        [data-theme="dark"] {
+            --bg: #1a2233;
+            --neu-shadow-dark: #111623;
+            --neu-shadow-light: #222e44;
+            --card-bg: #1a2233;
+            --text-primary: #c5d8c8;
+            --text-secondary: #6ea882;
+            --accent: #4ade80;
+            --accent-glow: rgba(74, 222, 128, 0.18);
+            --toggle-sun: #f5a623;
+            --toggle-moon: #7ea8d0;
+            --clock-digit: #7dd5a0;
+            --clock-sep: #4ade80;
+        }
+
+        /* ============================================================
+   CUSTOM SCROLLBARS — NEUMORPHISM (LIGHT & DARK)
+   ============================================================ */
+        /* Para navegadores basados en WebKit (Chrome, Edge, Safari) */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+            margin: 4px;
+            transition: background var(--transition), box-shadow var(--transition);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 3px 3px 6px var(--neu-shadow-dark),
+                -3px -3px 6px var(--neu-shadow-light);
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            transition: box-shadow var(--transition), background var(--transition);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: 4px 4px 8px var(--neu-shadow-dark),
+                -4px -4px 8px var(--neu-shadow-light);
+            border: 1px solid var(--accent-glow);
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            box-shadow: inset 3px 3px 6px var(--neu-shadow-dark),
+                inset -3px -3px 6px var(--neu-shadow-light);
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: var(--card-bg);
+        }
+
+        /* ============================================================
+       REVEAL CORE OVERRIDES
+       ============================================================ */
+        * {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--card-bg);
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            transition: background var(--transition);
+            scrollbar-color: var(--accent) var(--neu-shadow-dark);
+        }
+
+        .reveal {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        .reveal .slides {
+            height: 100% !important;
+        }
+
+        .reveal section {
+            height: 100% !important;
+            padding: 20px !important;
+            box-sizing: border-box;
+            display: flex !important;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: visible !important;
+        }
+
+        /* Hide default reveal controls — we re-position them */
+        .reveal .controls {
+            bottom: 18px !important;
+            right: 18px !important;
+            color: var(--accent) !important;
+            z-index: 200;
+        }
+
+        .reveal .controls button {
+            color: var(--accent) !important;
+            opacity: 0.55;
+            filter: drop-shadow(0 2px 6px var(--accent-glow));
+            transition: opacity var(--transition), filter var(--transition);
+        }
+
+        .reveal .controls button:hover,
+        .reveal .controls button.enabled {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        /* Progress bar */
+        .reveal .progress {
+            background: transparent;
+            height: 3px;
+            z-index: 200;
+        }
+
+        .reveal .progress span {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            transition: width 0.8s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        /* ============================================================
+       NEUMORPHISM HELPERS
+       ============================================================ */
+        .neu-out {
+            background: var(--card-bg);
+            box-shadow:
+                6px 6px 14px var(--neu-shadow-dark),
+                -6px -6px 14px var(--neu-shadow-light);
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .neu-in {
+            background: var(--card-bg);
+            box-shadow:
+                inset 5px 5px 11px var(--neu-shadow-dark),
+                inset -5px -5px 11px var(--neu-shadow-light);
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        .neu-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow:
+                8px 8px 18px var(--neu-shadow-dark),
+                -8px -8px 18px var(--neu-shadow-light);
+            padding: 28px 32px;
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        /* ============================================================
+       CLOCK — TOP LEFT
+       ============================================================ */
+        #clock-widget {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 18px;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow:
+                6px 6px 14px var(--neu-shadow-dark),
+                -6px -6px 14px var(--neu-shadow-light);
+            user-select: none;
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        #clock-time {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--clock-digit);
+            letter-spacing: 0.06em;
+            line-height: 1;
+            text-shadow: 0 0 12px var(--accent-glow);
+            transition: color var(--transition), text-shadow var(--transition);
+        }
+
+        #clock-time .sep {
+            color: var(--clock-sep);
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        #clock-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.52rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.12em;
+            margin-top: 5px;
+            text-transform: uppercase;
+            transition: color var(--transition);
+        }
+
+        /* inner inset ring for neumorphic depth */
+        #clock-widget::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border-radius: 13px;
+            box-shadow:
+                inset 2px 2px 5px var(--neu-shadow-dark),
+                inset -2px -2px 5px var(--neu-shadow-light);
+            pointer-events: none;
+            transition: box-shadow var(--transition);
+        }
+
+        /* ============================================================
+       DARK / LIGHT TOGGLE — BOTTOM LEFT
+       ============================================================ */
+        #theme-toggle {
+            position: fixed;
+            bottom: 18px;
+            left: 18px;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        #theme-toggle .toggle-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: color var(--transition);
+            width: 28px;
+            text-align: center;
+        }
+
+        /* The pill track */
+        #toggle-track {
+            position: relative;
+            width: 56px;
+            height: 28px;
+            border-radius: 14px;
+            background: var(--card-bg);
+            box-shadow:
+                inset 3px 3px 7px var(--neu-shadow-dark),
+                inset -3px -3px 7px var(--neu-shadow-light);
+            cursor: pointer;
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+            flex-shrink: 0;
+        }
+
+        /* The thumb */
+        #toggle-thumb {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            box-shadow:
+                3px 3px 7px var(--neu-shadow-dark),
+                -3px -3px 7px var(--neu-shadow-light);
+            transition:
+                left var(--transition),
+                background var(--transition),
+                box-shadow var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        [data-theme="dark"] #toggle-thumb {
+            left: 32px;
+        }
+
+        /* Icon inside thumb */
+        #toggle-thumb::after {
+            content: '☀';
+            font-size: 0.75rem;
+            color: var(--toggle-sun);
+            transition: content var(--transition), color var(--transition);
+            line-height: 1;
+        }
+
+        [data-theme="dark"] #toggle-thumb::after {
+            content: '☾';
+            color: var(--toggle-moon);
+        }
+
+        .reveal pre code.hljs {
+            background: transparent !important;
+        }
+
+        /* Modo claro: forzar color oscuro si el tema claro no lo hace */
+        [data-theme="light"] .reveal pre code.hljs {
+            color: #24292e !important;
+        }
+
+        /* Modo oscuro: mantener color claro de Monokai */
+        [data-theme="dark"] .reveal pre code.hljs {
+            color: #f8f8f2 !important;
+        }
+
+        /* ============================================================
+       SLIDE CONTENT STYLES
+       ============================================================ */
+        .reveal h1,
+        .reveal h2,
+        .reveal h3,
+        .reveal h4 {
+            font-family: 'Space Mono', monospace;
+            color: var(--text-primary);
+            transition: color var(--transition);
+        }
+
+        .reveal p,
+        .reveal li {
+            color: var(--text-primary);
+            transition: color var(--transition);
+        }
+
+        .reveal .accent {
+            color: var(--accent);
+        }
+
+        /* Bento grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: 1fr;
+            gap: 12px;
+            width: 1160px;
+            height: 580px;
+        }
+
+        .bento-item {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow:
+                7px 7px 16px var(--neu-shadow-dark),
+                -7px -7px 16px var(--neu-shadow-light);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        /* Puzzle corners */
+        .puzzle-tl {
+            border-radius: 50px 18px 18px 18px !important;
+        }
+
+        .puzzle-tr {
+            border-radius: 18px 50px 18px 18px !important;
+        }
+
+        .puzzle-bl {
+            border-radius: 18px 18px 18px 50px !important;
+        }
+
+        .puzzle-br {
+            border-radius: 18px 18px 50px 18px !important;
+        }
+
+        /* Corner label */
+        .corner-label {
+            position: absolute;
+            top: 180px;
+            right: 60px;
+            left: auto;
+            padding: 10px 24px;
+            background: var(--card-bg);
+            border-radius: 8px 8px 8px 28px !important;
+            box-shadow: -4px 4px 10px var(--neu-shadow-dark);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.70em;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            z-index: 15;
+            transition: background var(--transition), box-shadow var(--transition), color var(--transition);
+        }
+
+        /* Code blocks */
+        .reveal pre {
+            width: 100% !important;
+            background: var(--card-bg) !important;
+            border-radius: 14px;
+            box-shadow:
+                inset 5px 5px 11px var(--neu-shadow-dark),
+                inset -5px -5px 11px var(--neu-shadow-light) !important;
+            transition: background var(--transition), box-shadow var(--transition);
+        }
+
+        .reveal pre code {
+            display: block;
+            padding: 1em !important;
+            background: transparent !important;
+            font-family: 'Fira Code', monospace !important;
+            font-size: 0.58em !important;
+            line-height: 1.55 !important;
+            box-shadow: none !important;
+            transition: color var(--transition);
+        }
+
+        /* Heredar color del tema de highlight.js, pero forzar legibilidad */
+        [data-theme="light"] .reveal pre code.hljs {
+            color: #24292e !important;
+            /* texto oscuro sobre fondo claro */
+        }
+
+        [data-theme="dark"] .reveal pre code.hljs {
+            color: #f8f8f2 !important;
+            /* texto claro sobre fondo oscuro (Monokai) */
+        }
+
+        [data-theme="dark"] .reveal pre code.hljs,
+        [data-theme="dark"] .reveal pre code.hljs * {
+            font-weight: 400 !important;
+        }
+
+        /* Decorative floating circles */
+        .float-blob {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--card-bg);
+            box-shadow:
+                10px 10px 22px var(--neu-shadow-dark),
+                -10px -10px 22px var(--neu-shadow-light);
+            z-index: 0;
+            pointer-events: none;
+            transition:
+                background var(--transition),
+                box-shadow var(--transition);
+        }
+
+        /* Accent line */
+        .accent-line {
+            width: 60px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+            margin: 12px 0;
+            transition: background var(--transition), box-shadow var(--transition);
+        }
+
+        /* Neu button */
+        .neu-btn {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 40px;
+            padding: 12px 28px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            cursor: pointer;
+            box-shadow:
+                5px 5px 12px var(--neu-shadow-dark),
+                -5px -5px 12px var(--neu-shadow-light);
+            transition:
+                box-shadow 180ms ease,
+                transform 180ms ease,
+                background var(--transition),
+                color var(--transition);
+        }
+
+        .neu-btn:hover {
+            box-shadow:
+                7px 7px 16px var(--neu-shadow-dark),
+                -7px -7px 16px var(--neu-shadow-light);
+        }
+
+        .neu-btn:active {
+            box-shadow:
+                inset 4px 4px 9px var(--neu-shadow-dark),
+                inset -4px -4px 9px var(--neu-shadow-light);
+            transform: scale(0.97);
+        }
+
+        /* Slide number */
+        .reveal .slide-number {
+            background: transparent;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            bottom: 22px;
+            right: 90px;
+            transition: color var(--transition);
+        }
+
+        /* Contenedor de enlaces en la esquina */
+        .links-container {
+            position: absolute;
+            top: 180px;
+            right: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .link-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 1.2rem;
+            box-shadow: 6px 6px 12px var(--neu-shadow-dark),
+                -6px -6px 12px var(--neu-shadow-light);
+            transition: all var(--transition);
+        }
+
+        .link-circle:hover {
+            box-shadow: inset 4px 4px 8px var(--neu-shadow-dark),
+                inset -4px -4px 8px var(--neu-shadow-light);
+            transform: scale(0.95);
+        }
+
+        .link-circle svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+    </style>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        const htmlRoot = document.documentElement;
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: htmlRoot.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
+            securityLevel: 'loose',
+            class: { useMaxWidth: false }
+        });
+        const observer = new MutationObserver(() => {
+            const theme = htmlRoot.getAttribute('data-theme');
+            mermaid.initialize({ theme: theme === 'dark' ? 'dark' : 'default' });
+        });
+        observer.observe(htmlRoot, { attributes: true, attributeFilter: ['data-theme'] });
+    </script>
+</head>
+
+<body>
+
+    <!-- ── CLOCK ─────────────────────────────── -->
+    <div id="clock-widget" aria-label="Reloj">
+        <div id="clock-time">
+            <span id="ch">00</span><span class="sep">:</span><span id="cm">00</span><span class="sep">:</span><span
+                id="cs">00</span>
+        </div>
+        <div id="clock-date">--- -- ----</div>
+    </div>
+
+    <!-- ── THEME TOGGLE ──────────────────────── -->
+    <div id="theme-toggle" role="switch" aria-checked="false" tabindex="0" title="Cambiar tema">
+        <span class="toggle-label" id="lbl-light">LUZ</span>
+        <div id="toggle-track">
+            <div id="toggle-thumb"></div>
+        </div>
+        <span class="toggle-label" id="lbl-dark">NOCHE</span>
+    </div>
+
+    <!-- ── REVEAL PRESENTATION ───────────────── -->
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ╔══════════════════════════════╗
+                 ║  00 · PORTADA                ║
+                 ╚══════════════════════════════╝ -->
+            <section>
+                <div class="float-blob" style="width:340px;height:340px;top:-40px;left:120px;opacity:.55;"></div>
+                <div class="float-blob" style="width:200px;height:200px;bottom:100px;right:100px;opacity:.45;"></div>
+                <div class="neu-card puzzle-tl" style="max-width:680px;width:100%;position:relative;z-index:1;">
+                    <p
+                        style="font-family:'Space Mono',monospace;font-size:.55em;letter-spacing:.25em;text-transform:uppercase;color:var(--text-secondary);margin:0 0 8px;">
+                        Proyecto Final · POO
+                    </p>
+                    <div class="accent-line"></div>
+                    <h1 style="font-size:2.6em;line-height:1.1;margin:.2em 0 .4em;">
+                        TERMINAL<br><span class="accent">ATC-79</span>
+                    </h1>
+                    <p style="font-size:.75em;color:var(--text-secondary);margin:0 0 28px;">
+                        Simulador de control de tráfico aéreo — Vectores, física y toma de decisiones
+                    </p>
+                    <button class="neu-btn" onclick="Reveal.next()">Iniciar →</button>
+                </div>
+            </section>
+
+            <!-- ╔══════════════════════════════╗
+                 ║  01 · ÍNDICE                 ║
+                 ╚══════════════════════════════╝ -->
+            <section>
+                <div class="float-blob" style="width:350px;height:350px;bottom:30px;right:750px;opacity:.45;"></div>
+                <div class="corner-label puzzle-br">Índice</div>
+                <div style="display:flex;gap:22px;align-items:stretch;width:1100px;">
+
+                    <!-- Bloque 01 -->
+                    <div class="neu-card puzzle-tl"
+                        style="flex:1;display:flex;flex-direction:column;gap:14px;cursor:pointer;"
+                        onclick="Reveal.slide(2,0)">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:2.8em;font-weight:700;color:var(--accent);line-height:1;">01</span>
+                        <div class="accent-line" style="margin:0;"></div>
+                        <h2 style="font-size:.85em;margin:0;line-height:1.3;">Ideación<br>del Proyecto</h2>
+                        <p style="font-size:.52em;color:var(--text-secondary);margin:0;line-height:1.55;flex:1;">
+                            Origen, motivación y diseño conceptual del simulador de tráfico aéreo.
+                        </p>
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
+                            5 diapositivas</span>
+                    </div>
+
+                    <!-- Bloque 02 -->
+                    <div class="neu-card" style="flex:1;display:flex;flex-direction:column;gap:14px;cursor:pointer;"
+                        onclick="Reveal.slide(3,0)">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:2.8em;font-weight:700;color:var(--accent);line-height:1;">02</span>
+                        <div class="accent-line" style="margin:0;"></div>
+                        <h2 style="font-size:.85em;margin:0;line-height:1.3;">Clases y<br>Explicación de Código</h2>
+                        <p style="font-size:.52em;color:var(--text-secondary);margin:0;line-height:1.55;flex:1;">
+                            Arquitectura MVC, entidades, física y lógica de control en profundidad.
+                        </p>
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
+                            6 diapositivas</span>
+                    </div>
+
+                    <!-- Bloque 03 -->
+                    <div class="neu-card puzzle-tr"
+                        style="flex:1;display:flex;flex-direction:column;gap:14px;cursor:pointer;"
+                        onclick="Reveal.slide(4,0)">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:2.8em;font-weight:700;color:var(--accent);line-height:1;">03</span>
+                        <div class="accent-line" style="margin:0;"></div>
+                        <h2 style="font-size:.85em;margin:0;line-height:1.3;">Futuras<br>Adiciones</h2>
+                        <p style="font-size:.52em;color:var(--text-secondary);margin:0;line-height:1.55;flex:1;">
+                            Roadmap de mejoras: meteorología avanzada, IA, persistencia y más mapas.
+                        </p>
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
+                            3 diapositivas</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ╔══════════════════════════════╗
+                 ║  SECCIÓN 01 · IDEACIÓN       ║
+                 ╚══════════════════════════════╝ -->
+            <section>
+
+                <!-- 01·0 — Portada de sección -->
+                <section>
+                    <div class="float-blob" style="width:300px;height:300px;top:10px;right:30px;opacity:.5;"></div>
+                    <div class="neu-card puzzle-tl" style="max-width:720px;width:100%;position:relative;z-index:1;">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.52em;letter-spacing:.22em;color:var(--text-secondary);">SECCIÓN
+                            01</span>
+                        <div class="accent-line"></div>
+                        <h1 style="font-size:2em;margin:.15em 0 .4em;">Ideación del<br><span
+                                class="accent">Proyecto</span></h1>
+                        <p style="font-size:.65em;color:var(--text-secondary);">Origen, motivación y diseño conceptual.
+                        </p>
+                        <p
+                            style="font-size:.48em;color:var(--text-secondary);margin-top:24px;font-family:'Space Mono',monospace;letter-spacing:.1em;">
+                            ↓ NAVEGAR HACIA ABAJO</p>
+                    </div>
+                </section>
+
+                <!-- 01·1 — Visión general -->
+                <section>
+                    <div class="corner-label puzzle-br">01 · Ideación</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 2;grid-row:span 2;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                01 · 01</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:3em;margin:.2em 0 .4em;">Visión general</h2>
+                            <p style="font-size:1.5em;line-height:1.65;color:var(--text-secondary);">
+                                Terminal ATC 79 es un simulador de control de aproximación desarrollado en Java
+                                ambientado a finales de los años 70. El objetivo es gestionar el flujo de aeronaves que
+                                entran en el espacio aéreo, guiándolas mediante vectores (rumbo, altitud y velocidad)
+                                hacia un aterrizaje seguro y eficiente, evitando colisiones y gestionando diferentes
+                                tipos de emergencias, desafiando al jugador en una experiencia de rompacabezas dinámico
+                                de gestión de recursos.
+                            </p>
+                        </div>
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                ¿Cómo se juega?</p>
+                            <br>
+                            <p style="font-size:.75em;margin-top:.5em;">La partida se controla mediante comandos de
+                                texto, donde el jugador asigna vectores de rumbo, altitud y velocidad a cada aeronave,
+                                además de autorizar aproximaciones ILS o visuales a pistas concretas. El objetivo no es
+                                otro que mantener un flujo ordenado y seguro en el espacio aéreo, guiando a todos los
+                                vuelos hasta el aterrizaje sin incidentes.</p>
+                            <br>
+                            <p style="font-size:.75em;margin-top:.5em;">La partida concluye en derrota inmediata si se
+                                produce una colisión entre aeronaves por violación de la separación mínima, o si algún
+                                avión agota su combustible antes de tomar tierra. No existe una condición de victoria
+                                definitiva más allá de la supervivencia continua.</p>
+                        </div>
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                ¿Por qué interfaz gráfica y no terminal?</p>
+                            <br><br>
+                            <p style="font-size:.75em;margin-top:.5em;">El proyecto empezó con la idea de no usar
+                                interfaz gráfica y hacer una implementación de la visualización de datos y aeronaves en
+                                la consola dando al juego un ritmo menos dinámico y ajetrreado.</p>
+                            <br>
+                            <p style="font-size:.75em;margin-top:.5em;">Viendo este problema se decidió optar por añadir
+                                una interfaz gráfica usando java swing, esto, aun que añade complejidad al proyecto,
+                                permite más libertad y una experiencia mucho más rápida, dando esa sensación del estrés
+                                que sienten los controladores aereos al jugador.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 01·2 — Funcionalidades principales -->
+                <section>
+                    <div class="corner-label puzzle-br">01 · Ideación</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 3;grid-row:span 2;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                01 · 02</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:2em;margin:.2em 0 .4em;">Funcionalidades clave (MVP)</h2>
+                            <p style="font-size:1.5em;margin-top:.5em;">En esta primera entrega se plantea el MVP del
+                                proyecto, el poder controlar diferentes aeronaves dentro de un espacio aereo, pudiendo
+                                aterrizarlas y teniendo un detector de colisiones básico, por ello se incluyen las
+                                siguientes funcionalidades:</p>
+                            <br><br>
+                            <ul
+                                style="font-size:1.5em;color:var(--text-secondary);line-height:1.8;list-style-type: none;">
+                                <li>Gestión de vuelos rumbo, altitud y velocidad</li>
+                                <li>Autorizaciones ILS / VIS para aterrizajes</li>
+                                <li>Pistas con ILS, longitud y ocupación</li>
+                                <li>Separación básica por estela (Heavy/Medium/Light)</li>
+                                <li>Consumo de combustible</li>
+                                <li>Log de eventos (TCAS, aterrizajes, fallos)</li>
+                                <li>Radar gráfico</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 01·3 — Modelo de dominio -->
+                <section>
+                    <div class="corner-label puzzle-br">01 · Ideación</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 2;grid-row:span 2;">
+                            <h2 style="font-size:2em;margin:.2em 0 .4em;">Responsabilidades del MVC</h2>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;"><strong>MODELO</strong></p>
+                            <p style="font-size:1em;margin-top:.5em;">1. Airport define pistas y restricciones del
+                                espacio aéreo<br>
+                                2. Flight aplica física de vuelo, consumo y reglas de aproximación<br>
+                                3. Game centraliza el estado global y los mensajes del sistema<br>
+                                4. CommandParser traduce órdenes de texto en acciones sobre los vuelos<br>
+                                5. El modelo no conoce a la vista ni al controlador</p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;"><strong>CONTROLADOR</strong></p>
+                            <p style="font-size:1em;margin-top:.5em;"><strong>1. GameController coordina modelo y
+                                    vista<br>
+
+                                    2. Controla el bucle de juego con un Timer de 1 segundo<br>
+
+                                    3. Recoge eventos del modelo y los envía a la vista<br>
+
+                                    4. Recibe comandos del usuario y los deriva al modelo</strong></p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;"><strong>VISTA</strong></p>
+                            <p style="font-size:1em;margin-top:.5em;">
+                                1. WindowView construye la ventana principal<br>
+
+                                2. MainGamePanel organiza radar, cabecera y paneles laterales<br>
+
+                                3. RadarCanvas renderiza pistas, conos ILS y aeronaves rotadas<br>
+
+                                4. La vista solo muestra datos y captura entrada de teclado</p>
+
+                        </div>
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                01 · 03</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:.75em;color:var(--text-secondary);">Entidades principales del modelo</p>
+                            <pre><code class="language-java">//Modelo
+Airport
+Runway
+Flight
+Position
+Game
+CommandParser
+//Controlador
+GameController
+//Vista
+WindowView
+MainGamePanel
+RadarCanvas</code></pre>
+                        </div>
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                MVC</p>
+                            <p style="font-size:.75em;color:var(--text-secondary);">Flujo de la partida</p><br>
+                            <p style="font-size:.75em;color:var(--text-secondary);">1. Main instancia Airport, Game y
+                                GameController.<br>
+                                2. El controlador recibe la vista y la muestra.<br>
+                                3 .El temporizador del controlador ejecuta cada segundo game.update(), donde cada Flight
+                                recalcula su posición y consumo.<br>
+                                4. El modelo detecta condiciones de aterrizaje, conflictos o emergencias y almacena
+                                eventos en su registro interno.<br>
+                                5. El controlador vacía ese registro y envía los mensajes a la vista para que aparezcan
+                                en el log.<br>
+                                6. La vista actualiza el radar y los paneles informativos con los nuevos datos de los
+                                vuelos.<br>
+                                7. El jugador ingresa un comando; la vista lo captura y llama a
+                                controller.executeCommand().<br>
+                                8. El controlador delega en Game, que a su vez invoca al CommandParser para modificar el
+                                vuelo afectado.<br>
+                                9. El resultado se muestra en el log y el ciclo continúa.</p>
+                        </div>
+                    </div>
+                </section>
+
+            </section><!-- /sección 01 -->
+
+
+            <!-- ╔══════════════════════════════════╗
+                 ║  SECCIÓN 02 · CLASES Y CÓDIGO    ║
+                 ╚══════════════════════════════════╝ -->
+            <section>
+
+                <!-- 02·0 — Portada de sección -->
+                <section>
+                    <div class="float-blob" style="width:200px;height:200px;top:650px;right:30px;opacity:.5;"></div>
+                    <div class="neu-card puzzle-tr" style="max-width:720px;width:100%;position:relative;z-index:1;">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.52em;letter-spacing:.22em;color:var(--text-secondary);">SECCIÓN
+                            02</span>
+                        <div class="accent-line"></div>
+                        <h1 style="font-size:2em;margin:.15em 0 .4em;">Clases y<br><span class="accent">Explicación de
+                                Código</span></h1>
+                        <p style="font-size:.65em;color:var(--text-secondary);">Arquitectura MVC, entidades, física y
+                            control.</p>
+                        <p
+                            style="font-size:.48em;color:var(--text-secondary);margin-top:24px;font-family:'Space Mono',monospace;letter-spacing:.1em;">
+                            ↓ NAVEGAR HACIA ABAJO</p>
+                    </div>
+                </section>
+
+
+                <!-- 02·1 — Arquitectura MVC -->
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 2;grid-row:span 2; overflow:auto;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                02 · 01</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:2em;margin:.2em 0 .4em;">Arquitectura MVC</h2>
+
+                            <pre class="mermaid" style="background:transparent; font-size:0.5em; max-width:100%;">
+classDiagram
+direction TB
+
+class GameController {
+    -Game game
+    -Timer timer
+    -WindowView view
+    +start()
+    +executeCommand(String)
+}
+
+class WindowView {
+    -JFrame window
+    -GameController ctrl
+    -MainGamePanel radar
+    +show()
+    +updateView()
+}
+
+class MainGamePanel {
+    -RadarCanvas canvas
+    -JTextField input
+    -JTextArea info
+    +updateData()
+    +logMessage(String, String)
+}
+
+class RadarCanvas {
+    -Airport airport
+    -List flights
+    -int SCALE
+    +paintComponent(Graphics)
+}
+
+class Game {
+    -Airport airport
+    -List flights
+    -Score score
+    -CommandParser parser
+    +update()
+    +executeCommand(String) String
+}
+
+class CommandParser {
+    +parse(String) String
+}
+
+class Score {
+    -int points
+    -int landings
+}
+
+class Airport {
+    -String id
+    -String name
+    -List runways
+}
+
+class Runway {
+    -String id
+    -Position start
+    -Position end
+    -boolean hasILS
+    +isAligned(Flight) boolean
+}
+
+class Position {
+    -double x
+    -double y
+    -int z
+    +distanceTo()
+}
+
+class Flight {
+    -String callsign
+    -AircraftModel model
+    -Position pos
+    -int heading
+    -int speed
+    -double fuel
+    -FlightStatus status
+    +updatePosition()
+    +areInConflict(Flight) boolean
+}
+
+class AircraftModel {
+    -String id
+    -String name
+    -AircraftCategory cat
+}
+
+class FlightStatus {
+    EN_ROUTE
+    HOLDING
+    ILS_APPROACH
+    VIS_APPROACH
+    LANDING
+    EMERGENCY
+    CRASHED
+}
+
+class AircraftCategory {
+    LIGHT
+    MEDIUM
+    HEAVY
+}
+
+    GameController --> Game : Usa lógica
+    GameController --> WindowView : Controla visualización
+    WindowView --> GameController : Envía comandos
+    WindowView *-- MainGamePanel
+    MainGamePanel *-- RadarCanvas
+    Game *-- Score
+    Game *-- Airport
+    Game *-- Flight : Administra lista
+    Game *-- CommandParser : Delega
+    CommandParser ..> CommandExceptions : Lanza
+    Airport *-- Runway
+    Runway *-- Position : Start / End
+    Runway ..> Flight : Verifica colisión/alineamiento
+    Flight *-- Position : Ubicación actual
+    Flight o-- AircraftModel : Propiedades Físicas
+    Flight o-- Runway : Pista autorizada
+    Flight --> FlightStatus : Estado Actual
+    AircraftModel --> AircraftCategory : Contiene
+    MainGamePanel --> Airport
+    MainGamePanel --> Flight
+    RadarCanvas --> Airport
+    RadarCanvas --> Flight
+</pre>
+                        </div>
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Flujo de Datos</p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;">Event Loop: El GameTimer dispara actualizaciones
+                                cada 1s. Captura el input del usuario, lo pasa al CommandParser y ordena al Game
+                                actualizar la lógica.</p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;">Update View: Tras la lógica, el controlador llama
+                                a updateView(). RadarCanvas usa los datos de Flight y Airport para el repintado
+                                inmediato en el sistema de coordenadas.</p>
+                        </div>
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Principios</p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;">Lógica Pura: El núcleo del simulador funciona de
+                                forma autónoma a la representación visual. Esto garantiza que las reglas y cálculos sean
+                                consistentes, independientemente de si se renderizan en Swing o en una consola.</p>
+                            <br>
+                            <p style="font-size:1em;margin-top:.5em;">Arquitectura por Tipos: El uso de AircraftModel y
+                                FlightStatus permite añadir nuevos aviones o estados sin modificar la estructura
+                                principal, facilitando la expansión del juego.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 3;grid-row:span 2;text-align:left;">
+                            <pre><code class="language-java";>
+                                                    /**
+                                                    * Inicia el componente temporizador principal del juego, actualizando periódicamente el modelo y la vista.
+                                                    */
+                                                    public void start() {
+                                                        gameTimer = new Timer(1000, e -> {
+                                                            if (!game.isGameOver()) {
+                                                                game.update();
+
+                                                                for (String event : game.pullEvents()) {
+                                                                    view.getRadar().logTypedMessage(event, "INFO");
+                                                                }
+
+                                                                view.updateView(game.getFlights());
+                                                            } else {
+                                                                view.getRadar().logTypedMessage("OPERACIONES SUSPENDIDAS - GAME OVER", "SYSTEM");
+                                                                gameTimer.stop();
+                                                            }
+                                                        });
+                                                        gameTimer.start();
+                                                    }
+
+</code></pre>
+                        </div>
+                        <div class="bento-item puzzle-bl">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 02</p>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Ciclo de Ejecución</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                Implementación de un <strong>Game Loop de 1Hz</strong> mediante un Timer de Swing.
+                                Garantiza que la simulación física y el refresco visual ocurran de forma atómica cada
+                                1000ms.
+                            </p>
+                        </div>
+                        <div class="bento-item puzzle-br" style="grid-column:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                Comunicación</p>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Sistema de Notificaciones</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                El modelo acumula eventos de tráfico (aterrizajes, colisiones, avisos de combustible)
+                                que el controlador extrae mediante <code>pullEvents()</code>. Esto permite que la lógica
+                                del juego informe al usuario a través del log de consola de forma desacoplada.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 2;text-align:left;justify-content: center;">
+                            <pre><code class="language-java">
+        /**
+        * Analiza el texto introducido y aplica la lógica de comando a los vuelos especificados.
+        * 
+        * @param input el comando de texto introducido por el usuario
+        * @param flights la lista de vuelos activos en el juego
+        * @param airport el aeropuerto donde podrían tener lugar las acciones
+        * @param game el modelo del juego que maneja el estado global
+        * @return un mensaje describiendo el resultado de la ejecución del comando
+        * @throws CommandExceptions si el comando está mal formado o es inválido
+        */
+        public String parse(String input, List &lt; Flight &gt; flights, Airport airport, Game game) throws CommandExceptions {
+            String[] commands = input.trim().split( "\\s");
+
+            if (commands.length < 2) {
+                throw new CommandExceptions("Comando incompleto. Formato: [CALLSIGN] [ACCION] [VALOR]");
+            }
+
+            String callsign = commands[0].toUpperCase();
+            Flight flight = findFlight(callsign, flights);
+
+            String action = commands[1].toUpperCase();
+            return processAction(action, commands, flight, airport, game);
+
+        }
+
+</code></pre>
+                        </div>
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 03</p>
+                            <div class="accent-line"></div>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Tokenización y Dispatch</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                El parser descompone la cadena de entrada en <strong>tokens</strong>. Identifica la
+                                aeronave (Callsign) y delega la lógica a métodos especializados
+                                (<code>handleClearance</code> o <code>handleBasicMovement</code>), manteniendo el código
+                                limpio y mantenible.
+                            </p>
+                        </div>
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                Robustez</p><br>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Fail-Safe Parsing</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                Implementación de <strong>validación estricta</strong>: el sistema captura errores de
+                                formato, parámetros inexistentes o valores no numéricos antes de que lleguen al modelo,
+                                evitando estados inconsistentes o caídas del simulador (<em>Crash-safe</em>).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 2;text-align:left;justify-content: center; gap: 12px;">
+                            <pre><code class="language-java">
+                /**
+                * Actualiza la física del vuelo en cada ciclo.
+                * Diferencia entre estado actual y estado objetivo.
+                */
+                public void updatePosition() {
+                    if (this.status == FlightStatus.LANDING && assignedRunway != null) {
+                        landLogic();
+                    }
+                    updateHeading();  // Giro gradual según TurningRate
+                    updateLatitude(); // Movimiento vectorial (Trigonometría)
+                    updateAltitude(); // Ascenso/Descenso según ClimbRate
+                    updateSpeed();    // Aceleración según SpeedingRate
+                }
+            </code></pre>
+                            <div style="display: flex; gap: 12px;">
+                                <pre><code class="language-java">
+private void updateLatitude() {
+    double speedPerSeconds = getSpeed() / 3600.0;
+    double rad = Math.toRadians(getHeading());
+
+    double deltaX = speedPerSeconds * Math.sin(rad);
+    double deltaY = speedPerSeconds * Math.cos(rad);
+
+    Position pos = getCurrentPosition();
+    pos.setX(pos.getX() + deltaX);
+    pos.setY(pos.getY() + deltaY);
+}
+</code></pre>
+
+                                <pre><code class="language-java">
+private void updateSpeed() {
+    int current = getSpeed();
+    int target = getTargetSpeed();
+
+    if (current < target) {
+        setSpeed(Math.min(current + 
+        getModel().getSpeedingRate(), target));
+    } else if (current > target) {
+        setSpeed(Math.max(current - 
+        getModel().getSpeedingRate(), target));
+    }
+}
+</code></pre>
+
+                            </div>
+
+                        </div>
+
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 04</p>
+                            <div class="accent-line"></div>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.4em;color:var(--text-secondary);">
+                                Cinemática Realista</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                El avión no "salta" a los valores del comando. La clase <code>Flight</code> calcula la
+                                <strong>progresión gradual</strong> basándose en el rendimiento del modelo: tasas de
+                                giro, tasa de ascenso/descenso y aceleración específicas.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                Cálculo Vectorial</p>
+                            <br>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.4em;color:var(--text-secondary);">
+                                Motor de Movimiento</p>
+                            <br>
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;">
+                                Implementación de <strong>trigonometría esférica plana</strong> para traducir velocidad
+                                y rumbo en desplazamientos <code>X/Y</code>. El sistema gestiona altitudes en pies y
+                                distancias en millas náuticas para cumplir estándares aeronáuticos.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 3;text-align:left;justify-content: center; gap: 8px; border-radius: 18px;">
+                            <pre><code class="language-java">private void updateHeading() {
+    int current = getHeading();
+    int target = getTargetHeading();
+
+    int diff = (target - current + 360) % 360;
+
+    if (diff <= getModel().getTurningRate()) {
+        setHeading(target);
+    } else if (diff < 180) {
+        setHeading(current + getModel().getTurningRate());
+    } else if (diff > 180) {
+        setHeading(current - getModel().getTurningRate());
+    }
+
+    if (Math.abs(target - getHeading()) < getModel().getTurningRate() ||
+    Math.abs(target - getHeading()) > 360 - getModel().getTurningRate()) {
+        setHeading(target);
+    }
+
+    setHeading((getHeading() + 360) % 360);
+}
+</code></pre>
+
+                            <pre><code class="language-java">
+private void updateAltitude() {
+    int current = currentPosition.getZ();
+    int target = getTargetAltitude();
+
+    if (this.status == FlightStatus.LANDING) {
+        target = Math.min(current, target);
+    }
+
+    if (current < target) {
+        setAltitude(Math.min(current + getModel().getClimbRate(), target));
+    } else if (current > target) {
+        setAltitude(Math.max(current - getModel().getClimbRate(), target));
+    }
+}
+</code></pre>
+                        </div>
+                        <div class="bento-item puzzle-tr"
+                            style="grid-column:span 1;grid-row:span 3;text-align:left;justify-content: flex-start; padding: 1.5em;">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 05</p>
+                            <div class="accent-line"></div>
+
+                            <p style="font-family:'Space Mono',monospace;font-size:1.4em;color:var(--text-secondary);">
+                                Lógica de Convergencia</p>
+                            <br>
+
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;margin-bottom:1em;">
+                                <strong>Optimización de Giro:</strong> El uso del operador módulo <code>% 360</code> y
+                                la comparación <code>diff < 180</code> permite que el avión siempre gire por el lado más
+                                corto (izquierda o derecha), emulando el comportamiento de un piloto real.
+                            </p>
+
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;margin-bottom:1em;">
+                                <strong>Sincronización de Altitud:</strong> El método asegura que el ascenso/descenso
+                                sea progresivo según el <code>ClimbRate</code>. En estado <code>LANDING</code>, se
+                                fuerza una restricción de seguridad mediante <code>Math.min</code> para evitar ascensos
+                                no deseados durante la aproximación final.
+                            </p>
+
+                            <p
+                                style="font-size:.65em;color:var(--text-secondary);line-height:1.4;font-style:italic;border-left: 2px solid var(--text-secondary); padding-left: 8px;">
+                                Esta lógica garantiza que el movimiento sea fluido y no instantáneo, permitiendo que el
+                                radar visualice la trayectoria de interceptación en tiempo real.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 02·5 — Lógica de aproximación ILS / VIS -->
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 3;text-align:left;justify-content: center; gap: 8px;">
+                            <pre><code class="language-java">@Override
+protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2d = (Graphics2D) g;
+    
+    // Dibujar anillos de rango y pistas
+    for (Runway r : airport.getRunways()) {
+        drawRunway(g2d, r, centerX, centerY);
+    }
+
+    // Dibujar vuelos activos
+    for (Flight f : flights) {
+        drawFlight(g2d, f);
+    }
+}
+
+private void drawFlight(Graphics2D g2d, Flight f) {
+    Point pos = toScreen(f.getCurrentPosition());
+    AffineTransform old = g2d.getTransform();
+
+    g2d.translate(pos.x, pos.y);
+    g2d.rotate(Math.toRadians(f.getHeading()));
+    
+    // Dibujo del polígono (triángulo) del avión
+    g2d.fillPolygon(new int[] {0, 4, -4}, new int[] {-8, 4, 4}, 3);
+    g2d.setTransform(old); // Reset para dibujar texto vertical
+}</code></pre>
+                        </div>
+
+                        <div class="bento-item puzzle-tr"
+                            style="grid-column:span 1;grid-row:span 3;text-align:left;justify-content: flex-start; padding: 1.5em;">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 06</p>
+                            <div class="accent-line"></div>
+
+                            <p style="font-family:'Space Mono',monospace;font-size:1.4em;color:var(--text-secondary);">
+                                Visualización Radar</p>
+                            <br>
+
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;margin-bottom:1em;">
+                                <strong>Transformaciones Afines:</strong> El uso de <code>AffineTransform</code> permite
+                                rotar de forma independiente la representación gráfica de cada aeronave según su rumbo,
+                                sin afectar a las etiquetas de texto de los datos de vuelo.
+                            </p>
+
+                            <p style="font-size:.75em;color:var(--text-primary);line-height:1.4;margin-bottom:1em;">
+                                <strong>Conos de Aproximación:</strong> El sistema dibuja visualmente el alcance del ILS
+                                mediante líneas discontinuas calculadas trigonométricamente, proporcionando al usuario
+                                una referencia visual clara para la interceptación.
+                            </p>
+
+                            <p
+                                style="font-size:.65em;color:var(--text-secondary);line-height:1.4;font-style:italic;border-left: 2px solid var(--text-secondary); padding-left: 8px;">
+                                Se implementa un sistema de coordenadas relativo donde el centro de la pantalla
+                                representa el VOR del aeropuerto, escalando unidades náuticas a píxeles.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 02·6 — Eventos y logs -->
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 2;text-align:left;justify-content: center;">
+                            <pre><code class="language-java">private void drawRunway(Graphics2D g2d, Runway r, int centerX, int centerY) {
+        g2d.setColor(Color.WHITE);
+        g2d.setStroke(new BasicStroke(4.0f));
+        int x1 = centerX + (int) (r.getStartPoint().getX() * SCALE);
+        int y1 = centerY - (int) (r.getStartPoint().getY() * SCALE);
+        int x2 = centerX + (int) (r.getEndPoint().getX() * SCALE);
+        int y2 = centerY - (int) (r.getEndPoint().getY() * SCALE);
+        g2d.drawLine(x1, y1, x2, y2);
+
+        if (r.hasILS()) {
+            g2d.setColor(new Color(112, 41, 99));
+            g2d.setStroke(new BasicStroke(1.0f));
+            int heading = r.getHeading();
+            double ilsLength = 7.5;  // Longitud del ILS
+            // Linea central y cono
+            int[] angles = {heading, heading + 7, heading - 7};
+            for (int i = 0; i < angles.length; i++) {
+                if (i == 0) { // linea discontinua para la central
+                    g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0));
+                } else {
+                    g2d.setStroke(new BasicStroke(1.0f));
+                }
+
+                double rad = Math.toRadians(angles[i]);
+
+                double ilsEndX = r.getStartPoint().getX() - Math.sin(rad) * ilsLength;
+                double ilsEndY = r.getStartPoint().getY() - Math.cos(rad) * ilsLength;
+
+                // Convertir a píxeles de pantalla
+                int screenEndX = centerX + (int)(ilsEndX * SCALE);
+                int screenEndY = centerY - (int)(ilsEndY * SCALE);
+
+                g2d.drawLine(x1, y1, screenEndX, screenEndY);
+            }
+        }
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(r.getId(), x1, y1 + 15);
+    }</code></pre>
+                        </div>
+
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 07</p>
+                            <div class="accent-line"></div>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.2em;color:var(--text-secondary);">
+                                Infraestructura</p>
+                            <br>
+                            <p style="font-size:.7em;color:var(--text-primary);line-height:1.4;margin-top:0.5em;">
+                                <strong>Representación de Pistas:</strong> Las pistas se dibujan como lineas con un
+                                grosor realzado. Por cada pista el sistema identifica automáticamente el punto de inicio
+                                y el punto de final para colocar la represenación gráfica.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.2em;color:var(--text-secondary);">
+                                Sistemas de Ayuda</p>
+                            <br>
+                            <p style="font-size:.7em;color:var(--text-primary);line-height:1.4;margin-top:0.5em;">
+                                <strong>Simulación de ILS:</strong> El código proyecta un haz de interceptación
+                                discontinuo. Esta ayuda visual permite al controlador ver si el ángulo de aproximación
+                                del vuelo es similar al aceptado para inerceptar la senda de planeo
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">02 · Código</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl"
+                            style="grid-column:span 2;grid-row:span 2;text-align:left;justify-content: center;">
+                            <pre><code class="language-java">private void drawFlight(Graphics2D g2d, Flight f) {
+        Point flightPosition = toScreen(f.getCurrentPosition());
+
+        // guardar posicion orignal
+        AffineTransform old = g2d.getTransform();
+
+        // rotar hacia heading
+        g2d.translate(flightPosition.x, flightPosition.y);
+        g2d.rotate(Math.toRadians(f.getHeading()));
+
+        // dibujar avion
+        g2d.setColor(Color.CYAN);
+        Polygon poly = new Polygon();
+        poly.addPoint(0, -8);
+        poly.addPoint(4, 4);
+        poly.addPoint(-4, 4);
+        g2d.fillPolygon(poly);
+
+        // volver a la vertical para el texto
+        g2d.setTransform(old);
+
+        g2d.setColor(Color.GREEN);
+        g2d.drawString(f.getCallsign(), flightPosition.x + 10, flightPosition.y);
+        g2d.drawString("Alt: " + f.getCurrentPosition().getZ(), flightPosition.x + 10, flightPosition.y + 12);
+        g2d.drawString("Spd: " + f.getSpeed(), flightPosition.x + 10, flightPosition.y + 24);
+    }</code></pre>
+                        </div>
+
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
+                                02 · 08</p>
+                            <div class="accent-line"></div>
+                            <p style="font-family:'Space Mono',monospace;font-size:1.2em;color:var(--text-secondary);">
+                                Iconos con rumbo</p>
+                            <br>
+                            <p style="font-size:.7em;color:var(--text-primary);line-height:1.4;margin-top:0.5em;">
+                                <strong>Orientación Dinámica:</strong> Cada icono de aeronave rota en tiempo real para
+                                reflejar su rumbo actual (Heading), proporcionando una conciencia situacional inmediata
+                                al operador.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.2em;color:var(--text-secondary);">
+                                Data Blocks</p>
+                            <br>
+                            <p style="font-size:.7em;color:var(--text-primary);line-height:1.4;margin-top:0.5em;">
+                                Además junto a cada icono de cada aeronave se dibujan sus atributos como el
+                                identificador, la velocidad, y altura a la que se encuentra en cada momento
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+            </section><!-- /sección 02 -->
+
+
+            <!-- ╔══════════════════════════════════╗
+                 ║  SECCIÓN 03 · FUTURAS ADICIONES  ║
+                 ╚══════════════════════════════════╝ -->
+            <section>
+
+
+
+                <!-- 03·0 — Portada de sección -->
+                <section>
+                    <div class="float-blob" style="width:500px;height:500px;top:-90px;right:-150px;opacity:.5;"></div>
+                    <div class="neu-card puzzle-bl" style="max-width:720px;width:100%;position:relative;z-index:1;">
+                        <span
+                            style="font-family:'Space Mono',monospace;font-size:.52em;letter-spacing:.22em;color:var(--text-secondary);">SECCIÓN
+                            03</span>
+                        <div class="accent-line"></div>
+                        <h1 style="font-size:2em;margin:.15em 0 .4em;">Futuras<br><span class="accent">Adiciones</span>
+                        </h1>
+                        <p style="font-size:.65em;color:var(--text-secondary);">Roadmap: lo que viene después del MVP.
+                        </p>
+                        <p
+                            style="font-size:.48em;color:var(--text-secondary);margin-top:24px;font-family:'Space Mono',monospace;letter-spacing:.1em;">
+                            ↓ NAVEGAR HACIA ABAJO</p>
+                    </div>
+                </section>
+
+
+                <!-- 03·1 — Meteorología y eventos dinámicos -->
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+                        <div class="bento-item puzzle-tl" style="grid-column:span 2;grid-row:span 2;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                03 · 01</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-family:'Space Mono',monospace;font-size:2em;color:var(--text-secondary);">
+                                Clima y eventos avanzados</h2>
+                            <br>
+                            <p style="font-size:.75em;line-height:1.65;color:var(--text-primary);">
+                                La futura implementación del sistema meteorológico transformará el entorno estático
+                                actual en un escenario dinámico donde el clima condicionará directamente la toma de
+                                decisiones. Este sistema no será un añadido visual, sino un motor de dificultad basado
+                                en probabilidades que afectará a la física del vuelo y a las reglas de control.
+                                <br><br>
+                                Lo que se pretende con esta actualización es generar restricciones operativas, mayor
+                                cantidad de incidencias y una necesidad de adaptación estratégica
+                            </p>
+                        </div>
+                        <div class="bento-item puzzle-br" style="grid-column: span 1; grid-row:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                3. RAIN (Lluvia Moderada)</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">Código METAR: RA.<br><br>
+                                Visibilidad: Reducida.<br><br>
+                                Impacto: La pista se considera "WET". El tiempo de ocupación de pista aumenta un 30%. Si
+                                un avión aterriza, el siguiente no puede tocar tierra hasta que el anterior haya salido
+                                completamente de la pista.</p>
+                        </div>
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                1. CLEAR (Cielo Despejado)</p>
+                            <p style="font-size:.75em;margin-top:.5em;"><br>
+                                Código METAR: SKC (Sky Clear).<br><br>
+                                Visibilidad: 10+ km.<br><br>
+                                Impacto: Los aviones vuelan a velocidad máxima y aterrizan con separación mínima (3 NM).
+                                Es el estado por defecto para practicar.</p>
+                        </div>
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                2. HAZE (Calima / Bruma)</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">Código METAR: HZ.<br><br>
+                                Visibilidad: 5-8 km.<br><br>
+                                Impacto: El radar muestra pequeñas interferencias (puntos aleatorios). Los pilotos
+                                pueden solicitar confirmación de altitud más a menudo.</p>
+                        </div>
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                4. HEAVY RAIN / STORM (Tormenta)</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">Código METAR: +TSRA.<br><br>
+                                Visibilidad: Muy baja.<br><br>
+                                Impacto: Celdas de Tormenta. Aparecen zonas de exclusión en el mapa (marcadas con
+                                caracteres como & o %). Si un avión entra en una celda, hay riesgo de emergencia médica
+                                o daño estructural.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+
+                        <div class="bento-item puzzle-tl" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                5. FOG (Niebla Densa)</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: FG. <br><br>
+                                Visibilidad < 500m. <br><br>
+                                    Implementación de Procedimientos LVP: la separación mínima sube a 10 NM y los
+                                    despegues se suspenden.</p>
+                        </div>
+
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                6. SNOW (Nieve)</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: SN. <br><br>
+                                Visibilidad: Variable.<br><br>
+                                Lógica de De-icing: retraso de 5 minutos en cabecera de pista para limpieza de alas,
+                                generando congestión en las calles de rodaje.</p>
+                        </div>
+
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                7. BLIZZARD</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: +SNBL. <br><br>
+                                Visibilidad: Nula.<br><br>
+                                Cierre rotativo de pistas por limpieza (Plowing). Obliga a desviar el tráfico a
+                                alternativos o esperas en HOLDING.</p>
+                        </div>
+
+                        <div class="bento-item puzzle-bl" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                8. WIND SHEAR</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: WS. <br><br>
+                                Visibilidad: Irrelevante.<br><br>
+                                20% de probabilidad de aproximación frustrada (Go-Around). El avión asciende a 3000ft y
+                                debe ser re-secuenciado.</p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                9. CROSSWIND</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: XWIND. <br><br>
+                                Visibilidad: Buena.<br><br>
+                                Inhabilitación de pistas por viento cruzado extremo. Solo se permiten operaciones en
+                                pistas alineadas con el viento.</p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column: span 1; grid-row:span 1;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1em;color:var(--text-secondary);">
+                                10. SANDSTORM</p><br>
+                            <p style="font-size:.75em;margin-top:.5em;">
+                                METAR: DS. <br><br>
+                                Visibilidad: Muy baja / Naranja.<br><br>
+                                Fallo de sensores: el radar congela las posiciones visuales durante 20s. Exige
+                                navegación por estima y cálculo mental.</p>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- 03·2 — IA y persistencia -->
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+
+                        <div class="bento-item puzzle-tl">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                03 · 02 — Dinámicas</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:1em;color:var(--text-primary);line-height:1.4;">
+                                <strong>Eventos Inesperados:</strong> Motor de incidencias dinámicas que genera
+                                emergencias médicas, fallos mecánicos (Mayday/Pan-Pan) y pérdidas temporales de
+                                comunicación (Radio Squelch).
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-tr">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Persistencia</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:1em;color:var(--text-primary);line-height:1.4;">
+                                <strong>Sistema de Archivos:</strong> Gestión de partidas independientes y
+                                almacenamiento de resúmenes estadísticos detallados al finalizar cada sesión de control.
+                            </p>
+                        </div>
+
+                        <div class="bento-item">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Evaluación</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:1em;color:var(--text-primary);line-height:1.4;">
+                                <strong>Puntuación Completa:</strong> Balance de puntos por aterrizajes seguros y
+                                eficiencia frente a penalizaciones por retrasos, colisiones o ignorar emergencias
+                                críticas.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-bl">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Tráfico Realista</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:1em;color:var(--text-primary);line-height:1.4;">
+                                <strong>Generador de Flota:</strong> Creación procedural de vuelos con atributos físicos
+                                únicos (peso, velocidad y consumo) según categorías Light, Medium y Heavy.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column:span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:1.5em;color:var(--text-secondary);">
+                                Infraestructura de Vuelo</p>
+                            <div class="accent-line"></div>
+                            <p style="font-size:1em;color:var(--text-primary);line-height:1.5;">
+                                <strong>Navegación Avanzada:</strong> Implementación de puntos de espera (HOLDING
+                                POINTS) y comandos de navegación directa para gestionar el flujo de tráfico y las
+                                reservas de combustible antes de la aproximación final.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid"
+                        style="grid-template-rows:repeat(4,1fr);grid-template-columns: repeat(4, 1fr);">
+
+                        <div class="bento-item puzzle-tl" style="grid-column:span 2; grid-row: span 4;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                MAPA 01</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.5em;">Alicante (ALC)
+                                · The Gateway</h2><br>
+                            <p style="font-size:0.75em; line-height:1.6; color:var(--text-primary);">Alicante es el
+                                punto de partida ideal para el controlador novel en 1979. Representa un entorno de baja
+                                presión, con cielos despejados y un tráfico manejable que permite asimilar los comandos
+                                básicos. Su infraestructura se apoya en una única pista (RWY 10/28) equipada con ILS Cat
+                                II, garantizando seguridad operativa. El mayor desafío es la aparición de la calima, que
+                                reduce la visibilidad e introduce estática en el radar, obligando a confirmar altitudes
+                                manualmente. Los eventos aleatorios, como el fallo de comunicación (Radio Squelch) o la
+                                urgencia médica (Pan Pan), tienen un propósito pedagógico: enseñan al jugador a
+                                verificar colaciones y a gestionar prioridades sin el estrés de una saturación masiva.
+                                Es un escenario de aprendizaje donde la visibilidad infinita y el sector abierto
+                                permiten cometer errores leves en la vectorización, estableciendo las bases del triaje
+                                de información antes de saltar a escenarios con mayor complejidad geométrica.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column:span 2; grid-row: span 4;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                MAPA 02</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.5em;">Barcelona (BCN)
+                                · The X-Factor</h2><br>
+                            <p style="font-size:0.75em; line-height:1.6; color:var(--text-primary); margin-top:1em;">
+                                Barcelona introduce el "factor X": la gestión de pistas cruzadas. El Prat obliga a
+                                coordinar la pista principal (07/25), apta para pesados, con la secundaria visual
+                                (02/20), que corta físicamente la trayectoria de la primera. El reto principal es el
+                                cálculo de ventanas de tiempo para evitar colisiones en la intersección. La meteorología
+                                mediterránea añade complejidad con la lluvia (RAIN); al declararse pista mojada ("WET"),
+                                las aeronaves tardan un 30% más en frenar y desalojar, retrasando toda la secuencia. Si
+                                la lluvia arrecia, la pista visual se inhabilita, provocando un embotellamiento masivo
+                                en la pista principal. Los eventos, como aproximaciones frustradas en plena
+                                intersección, exigen decisiones instantáneas para separar tráficos ascendentes de los
+                                despegues. Con un 10% de probabilidad de fallos de radio, Barcelona es un test de visión
+                                espacial donde la precisión en el tiempo de ocupación de pista es la diferencia entre el
+                                éxito y el accidente.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+
+                        <div class="bento-item puzzle-tl" style="grid-column: span 3; grid-row: span 1;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                MAPA 03</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.3em;">Los Angeles
+                                (LAX) · The Heavy Hub</h2><br>
+                            <p style="font-size:0.75em; line-height:1.5; color:var(--text-primary);">
+                                LAX traslada al jugador al gigantismo americano, donde el desafío no es la visibilidad,
+                                sino el volumen extremo de tráfico. Con pistas paralelas dobles que permiten aterrizajes
+                                simultáneos, el controlador debe gestionar una densidad de aeronaves constante desde el
+                                Pacífico. La mecánica crítica es la estela turbulenta: situar un avión ligero [L]
+                                demasiado cerca de un pesado [H] provoca una frustrada automática, rompiendo la
+                                secuencia. El evento estrella es la tormenta de arena, que activa el "Fallo de
+                                Sensores", congelando el radar durante 15 segundos. El jugador debe navegar por estima,
+                                recordando rumbos y velocidades mientras los iconos permanecen estáticos. Además, la
+                                saturación genera crisis de combustible frecuentes (Mayday Fuel), obligando a mover
+                                frenéticamente a otros vuelos para abrir pasillos de emergencia. Es un escenario Senior
+                                que castiga la mala planificación del espacio aéreo y pone a prueba la memoria espacial
+                                del controlador ante fallos tecnológicos críticos.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column: span 3; grid-row: span 1;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                MAPA 04</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.3em;">London Heathrow
+                                (LHR) · The Stack Master</h2><br>
+                            <p style="font-size:0.75em; line-height:1.5; color:var(--text-primary);">
+                                Heathrow es el escenario definitivo de gestión de esperas. Debido a su flujo extremo, es
+                                obligatorio el uso de puntos de espera (Holding Points) antes de autorizar la
+                                aproximación. El cielo de Londres está permanentemente saturado, exigiendo un descenso
+                                escalonado de aeronaves en los "Stacks". La meteorología introduce celdas de tormenta
+                                eléctricas que aparecen como bloques de símbolos en el radar; si un avión las toca,
+                                sufre daño estructural, forzando un Mayday inmediato. El jugador debe vectorizar
+                                constantemente para esquivar estos obstáculos móviles. Con un 20% de probabilidad de
+                                cizalladura (Wind Shear), los aviones frustran aterrizajes en el último momento,
+                                regresando al inicio de la cola y aumentando el riesgo de que otros agoten su reserva de
+                                combustible. Heathrow es una maratón de resistencia estratégica donde las interferencias
+                                de radio y las emergencias médicas constantes obligan a un rediseño de rutas en tiempo
+                                real.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <div class="corner-label puzzle-br">03 · Futuro</div>
+                    <div class="bento-grid" style="grid-template-rows:repeat(2,1fr);">
+
+                        <div class="bento-item puzzle-tl" style="grid-column: span 1; grid-row: span 2;">
+                            <p
+                                style="font-family:'Space Mono',monospace;font-size:.5em;letter-spacing:.2em;color:var(--text-secondary);">
+                                MAPA 05</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.5em;">Tenerife Norte
+                                (TFN) · The Ghost Terminal</h2><br>
+                            <p style="font-size:.75em; line-height:1.6; color:var(--text-primary);">
+                                Tenerife Norte recrea la tensión de 1977 en un aeropuerto desbordado por desvíos y una
+                                geografía hostil. La mecánica central es el "Backtrack": al no haber calle de rodaje
+                                completa, los aviones deben dar la vuelta en la pista tras aterrizar, bloqueándola
+                                durante 90 segundos adicionales. Bajo una niebla densa que reduce la visibilidad a 500
+                                metros, el radar "de guerra" parpadea y muestra iconos fantasmas, simulando la
+                                tecnología precaria de la época. El controlador debe lidiar con fallos de instrumentos
+                                frecuentes que exigen aproximaciones GCA, guiando al piloto solo por voz con rumbos cada
+                                5 segundos. Rodeado de montañas, cualquier error en los vectores es fatal. Con un 15% de
+                                fallos de radio, Tenerife es un ejercicio de triaje extremo donde la limitación física
+                                de la pista y la meteorología traicionera crean un cuello de botella constante que pone
+                                a prueba los nervios del veterano.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-tr" style="grid-column: span 1; grid-row: span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:.5em;color:var(--text-secondary);">
+                                MAPA 06</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.5em;">Reykjavík (KEF)
+                                · The Arctic Gate</h2><br>
+                            <p style="font-size:.75em; margin-top:0.4em; line-height:1.5;">
+                                Reykjavík es la puerta del Ártico, un escenario hostil donde el viento dicta la
+                                operativa. Como punto de repostaje transatlántico, el tráfico se compone de aviones
+                                grandes en rutas críticas. El rompecabezas surge cuando el viento cruzado extremo cierra
+                                la pista larga (11/29), inhabilitándola para los pesados [H], que no pueden aterrizar en
+                                la pista corta (01/19) por longitud. El controlador enfrenta dilemas de vida o muerte:
+                                mantener a un 747 en espera con poco combustible o autorizar un aterrizaje arriesgado
+                                con un 80% de probabilidad de accidente. Además, la nieve exige procesos de deshielo
+                                (De-icing) en cabecera, retrasando las salidas 5 minutos y congestionando las calles de
+                                rodaje. Con tormentas magnéticas que afectan la radio y ráfagas que provocan frustradas
+                                constantes (25%), Islandia exige prever cambios meteorológicos para evitar que los
+                                gigantes se queden sin opciones de aterrizaje seguro.
+                            </p>
+                        </div>
+
+                        <div class="bento-item puzzle-br" style="grid-column: span 1; grid-row: span 2;">
+                            <p style="font-family:'Space Mono',monospace;font-size:.5em;color:var(--text-secondary);">
+                                MAPA 07</p>
+                            <div class="accent-line"></div>
+                            <h2 style="font-size:1.5em;color:var(--text-secondary);margin-bottom:0.5em;">JFK New York
+                                (JFK) · The Frozen Apple</h2><br>
+                            <p style="font-size:.75em; margin-top:0.4em; line-height:1.5;">
+                                JFK es el nivel final de Terminal ATC 79: el caos absoluto en el invierno neoyorquino.
+                                El jugador gestiona un flujo masivo en un espacio aéreo reducido por aeropuertos vecinos
+                                (LGA/EWR). La mecánica maestra es el "Plowing": bajo ventisca extrema, las pistas
+                                cierran aleatoriamente durante 10 minutos para limpieza de nieve, reduciendo la
+                                capacidad operativa un 25% de golpe. Esto obliga a saturar los Holdings mientras se
+                                gestionan crisis de combustible en aviones transatlánticos. Las emergencias se solapan:
+                                un Mayday por fuego puede coincidir con el cierre de las pistas largas, obligando a
+                                decisiones éticas sobre la prioridad de la maquinaria de limpieza. Con una visibilidad
+                                nula y un 25% de comandos fallidos por Radio Squelch, JFK es un test de crisis pura.
+                                Solo la maestría en el triaje y la anticipación permiten sobrevivir a un escenario donde
+                                la tecnología y el clima colapsan simultáneamente.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </section><!-- /sección 03 -->
+
+
+            <!-- ╔══════════════════════════════╗
+                 ║  FIN · ¿PREGUNTAS?           ║
+                 ╚══════════════════════════════╝ -->
+            <section>
+                
+
+
+                <div class="float-blob" style="width:320px;height:320px;top:-70px;right:-70px;opacity:.5;"></div>
+                <div class="float-blob" style="width:180px;height:180px;bottom:-40px;left:-40px;opacity:.4;"></div>
+                <div class="links-container">
+                    <a href="https://github.com/Jgm527/Terminal-ATC-79" target="_blank" class="link-circle" title="GitHub">
+                        <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="https://www.notion.so/Terminal-ATC-79-31158e8503d1811e8984e037e40808ad?source=copy_link" target="_blank" class="link-circle" title="Notion">
+                        <span style="font-family: 'Inter'; font-weight: 700;">N</span>
+                    </a>
+                </div>
+                <div class="neu-card puzzle-br"
+                    style="max-width:560px;width:100%;text-align:center;position:relative;z-index:1;">
+                    <p
+                        style="font-family:'Space Mono',monospace;font-size:.55em;letter-spacing:.25em;color:var(--text-secondary);margin:0 0 8px;">
+                        FIN</p>
+                    <div class="accent-line" style="margin:12px auto;"></div>
+                    <h1 style="font-size:2.4em;margin:.2em 0 .5em;">¿Preguntas?</h1>
+                    <p class="accent" style="font-family:'Space Mono',monospace;font-size:.7em;letter-spacing:.15em;">
+                        TERMINAL-ATC-79</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="dist/plugin/notes.js"></script>
+    <script src="dist/plugin/markdown.js"></script>
+    <script src="dist/plugin/highlight.js"></script>
+    <script>
+        /* ── REVEAL INIT ────────────────────────── */
+        Reveal.initialize({
+            hash: true,
+            center: true,
+            transition: 'slide',
+            transitionSpeed: 'default',
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+            controls: true,
+            controlsLayout: 'bottom-right',
+            progress: true,
+            slideNumber: 'c/t',
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+        });
+
+        /* ── CLOCK ──────────────────────────────── */
+        const DAYS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+        const MONTHS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+        function pad(n) { return String(n).padStart(2, '0'); }
+
+        function tickClock() {
+            const now = new Date();
+            document.getElementById('ch').textContent = pad(now.getHours());
+            document.getElementById('cm').textContent = pad(now.getMinutes());
+            document.getElementById('cs').textContent = pad(now.getSeconds());
+            document.getElementById('clock-date').textContent =
+                `${DAYS[now.getDay()]} ${pad(now.getDate())} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+        }
+        tickClock();
+        setInterval(tickClock, 1000);
+
+        /* ── THEME TOGGLE ───────────────────────── */
+        const root = document.documentElement;
+        const track = document.getElementById('toggle-track');
+        const widget = document.getElementById('theme-toggle');
+
+        function applyTheme(theme) {
+            root.setAttribute('data-theme', theme);
+            widget.setAttribute('aria-checked', theme === 'dark');
+
+            // Alternar hojas de estilo de highlight.js
+            const darkCSS = document.getElementById('hljs-theme-dark');
+            const lightCSS = document.getElementById('hljs-theme-light');
+            if (darkCSS && lightCSS) {
+                darkCSS.disabled = (theme !== 'dark');
+                lightCSS.disabled = (theme === 'dark');
+            }
+
+            try { localStorage.setItem('atc-theme', theme); } catch (e) { }
+        }
+
+        function toggleTheme() {
+            const current = root.getAttribute('data-theme');
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        }
+
+        track.addEventListener('click', toggleTheme);
+        widget.addEventListener('keydown', e => {
+            if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleTheme(); }
+        });
+
+        /* Restaurar preferencia guardada */
+        try {
+            const saved = localStorage.getItem('atc-theme');
+            if (saved) applyTheme(saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) applyTheme('dark');
+            else applyTheme('light'); // <-- Asegura un tema por defecto
+        } catch (e) { }
+    </script>
+</body>
+
+</html>
