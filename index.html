@@ -697,7 +697,7 @@
                         </p>
                         <span
                             style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
-                            5 diapositivas</span>
+                            3 diapositivas</span>
                     </div>
 
                     <!-- Bloque 02 -->
@@ -708,11 +708,11 @@
                         <div class="accent-line" style="margin:0;"></div>
                         <h2 style="font-size:.85em;margin:0;line-height:1.3;">Clases y<br>Explicación de Código</h2>
                         <p style="font-size:.52em;color:var(--text-secondary);margin:0;line-height:1.55;flex:1;">
-                            Arquitectura MVC, entidades, física y lógica de control en profundidad.
+                            Arquitectura MVC, lógica de control e interfaz gráfica en profundidad.
                         </p>
                         <span
                             style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
-                            6 diapositivas</span>
+                            8 diapositivas</span>
                     </div>
 
                     <!-- Bloque 03 -->
@@ -724,11 +724,11 @@
                         <div class="accent-line" style="margin:0;"></div>
                         <h2 style="font-size:.85em;margin:0;line-height:1.3;">Futuras<br>Adiciones</h2>
                         <p style="font-size:.52em;color:var(--text-secondary);margin:0;line-height:1.55;flex:1;">
-                            Roadmap de mejoras: meteorología avanzada, IA, persistencia y más mapas.
+                            Roadmap de mejoras: meteorología avanzada, eventos aleatorios, persistencia y más mapas.
                         </p>
                         <span
                             style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);letter-spacing:.15em;">↓
-                            3 diapositivas</span>
+                            6 diapositivas</span>
                     </div>
 
                 </div>
@@ -797,12 +797,12 @@
                             <br><br>
                             <p style="font-size:.75em;margin-top:.5em;">El proyecto empezó con la idea de no usar
                                 interfaz gráfica y hacer una implementación de la visualización de datos y aeronaves en
-                                la consola dando al juego un ritmo menos dinámico y ajetrreado.</p>
+                                la consola pero esto daba al juego un ritmo menos dinámico y ajetrreado.</p>
                             <br>
                             <p style="font-size:.75em;margin-top:.5em;">Viendo este problema se decidió optar por añadir
                                 una interfaz gráfica usando java swing, esto, aun que añade complejidad al proyecto,
-                                permite más libertad y una experiencia mucho más rápida, dando esa sensación del estrés
-                                que sienten los controladores aereos al jugador.</p>
+                                permite más libertad y una experiencia mucho más ágil, dando esa sensación del estrés
+                                que sienten los controladores aéreos al jugador.</p>
                         </div>
                     </div>
                 </section>
@@ -854,23 +854,16 @@
                             <p style="font-size:1em;margin-top:.5em;"><strong>CONTROLADOR</strong></p>
                             <p style="font-size:1em;margin-top:.5em;"><strong>1. GameController coordina modelo y
                                     vista<br>
-
                                     2. Controla el bucle de juego con un Timer de 1 segundo<br>
-
                                     3. Recoge eventos del modelo y los envía a la vista<br>
-
                                     4. Recibe comandos del usuario y los deriva al modelo</strong></p>
                             <br>
                             <p style="font-size:1em;margin-top:.5em;"><strong>VISTA</strong></p>
                             <p style="font-size:1em;margin-top:.5em;">
                                 1. WindowView construye la ventana principal<br>
-
                                 2. MainGamePanel organiza radar, cabecera y paneles laterales<br>
-
                                 3. RadarCanvas renderiza pistas, conos ILS y aeronaves rotadas<br>
-
                                 4. La vista solo muestra datos y captura entrada de teclado</p>
-
                         </div>
                         <div class="bento-item puzzle-tr">
                             <p style="font-family:'Space Mono',monospace;font-size:.48em;color:var(--text-secondary);">
@@ -2091,5 +2084,4 @@ private void drawFlight(Graphics2D g2d, Flight f) {
         } catch (e) { }
     </script>
 </body>
-
 </html>
